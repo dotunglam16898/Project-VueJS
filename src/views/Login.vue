@@ -3,8 +3,8 @@
      <main>
          <div class="form">
              <div class="logoWrap">
-                 <!-- <img src="" class="logo"> -->
-                 <h3>Đăng Nhập</h3>
+                 <img src="https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/trello-header-logos/167dc7b9900a5b241b15ba21f8037cf8/trello-logo-blue.svg" class="logo">
+                 <!-- <h3>Đăng Nhập</h3> -->
              </div>
              <div class="formInputWrap">
                  <div class="input-wrap">                     
@@ -99,6 +99,7 @@ export default {
              display: flex;
             align-items: center;
             justify-content: flex-end;
+            cursor: pointer;
             .forgotPwd{
                 color: #0080dd;
                 font-size: 14px;
@@ -108,15 +109,16 @@ export default {
           
       }
       .submitButton{
-          width: 100%;
+        width: 100%;
         height: 50px;
-            color: #fff;
+        color: #fff;
         font-size: 14px;
         line-height: 18px;
         background: #0080dd;
         border-radius: 4px;
         text-transform: none;
         letter-spacing: 0.02857em;
+        cursor: pointer;
       }
   }
   .textRed{

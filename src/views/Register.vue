@@ -24,7 +24,7 @@
               <button class="submitButton" @click="submit()">          
                  <span>ĐĂNG KÝ</span>             
              </button>
-             <div class="backLogin">
+             <div class="backLogin" style="margin-top:25px">
                 <div class="previous">
                     <router-link to="/login" style="text-decoration:none">
                     <span style="color:#0080dd;"> <i class="el-icon-back"></i> Trở về trang đăng nhập</span>
@@ -110,15 +110,16 @@ export default {
           
       }
       .submitButton{
-          width: 100%;
+        width: 100%;
         height: 50px;
-            color: #fff;
+        color: #fff;
         font-size: 14px;
         line-height: 18px;
         background: #0080dd;
         border-radius: 4px;
         text-transform: none;
         letter-spacing: 0.02857em;
+        cursor: pointer;
       }
   }
   .textRed{
