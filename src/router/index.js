@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+// import store from "../store";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'Home',
     component: Home
   },
@@ -16,32 +17,40 @@ const routes = [
     component: () => import( '../views/About.vue')
   },
 
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: () => import( '../layouts/LoginLayout.vue'),
+  //   children: [
+  //     {
+  //       path: 'login',
+  //       component: () => import( '../views/Login.vue'),
+  //     },
+  //     {
+  //       path: 'register',
+  //       component: () => import( '../views/Register.vue'),
+  //     },
+  //   ]
+  // },
+
   {
-    path: '/',
+    path: '/login',
     name: 'Login',
-    component: () => import( '../layouts/LoginLayout.vue'),
-    children: [
-      {
-        path: 'login',
-        component: () => import( '../views/Login.vue'),
-      },
-      {
-        path: 'register',
-        component: () => import( '../views/Register.vue'),
-      },
-    ]
+    component: () => import( '../views/Login.vue'),
+    
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import( '../views/Register.vue'),
+    
   },
 
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import( '../layouts/AdminLayout.vue'),
-    children: [
-      {
-        path: 'Main',
-        component: () => import( '../views/Main.vue'),
-      },
-    ]
+    component: () => import( '../views/Main.vue'),
+    
   },
 
   {
@@ -56,5 +65,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'Login' && !store.state.login.isAuthenticated) {
+//     next({ name: 'Login' })
+//   } else {
+//     next()
+//   }
+// })
 export default router

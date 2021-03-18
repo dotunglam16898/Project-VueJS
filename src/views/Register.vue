@@ -8,20 +8,26 @@
              </div>
              <div class="formInputWrap">
                  <div class="input-wrap">                     
-                    <input type="text" placeholder="Nhập email" class="sui-input" @input="onChangeEmail($event.target.value)" >
-                    <span class="textRed">{{emailErrorMsg}}</span>
+                    <input type="text" placeholder="Nhập Tên" class="sui-input"  v-model="name">
+                    <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
+                 </div>
+             </div>
+             <div class="formInputWrap">
+                 <div class="input-wrap">                     
+                    <input type="text" placeholder="Nhập email" class="sui-input"  v-model="email">
+                    <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
                  </div>
              </div>
              <div class="formInputWrap">
                  <div class="inpur-wrap">
-                     <input type="password" placeholder="Nhập mật khẩu" class="sui-input" @input="onChangePass($event.target.value)">
-                     <span class="textRed">{{passErrorMsg}}</span>
+                     <input type="password" placeholder="Nhập mật khẩu" class="sui-input"  v-model="password">
+                     <!-- <span class="textRed">{{passErrorMsg}}</span> -->
                  </div>               
                 <!-- <div class="forgot">
                     <span class="forgotPwd">Quên mật khẩu?</span>
                 </div>                -->
              </div>
-              <button class="submitButton" @click="submit()">          
+              <button class="submitButton" @click="submit()">    
                  <span>ĐĂNG KÝ</span>             
              </button>
              <div class="backLogin" style="margin-top:25px">
@@ -37,16 +43,36 @@
 </template>
 
 <script> 
-
+import {mapState, mapMutations} from 'vuex'
+import api from '../api'
 export default {
-   
+computed: {
+      ...mapState('login', ['isAuthenticated']),
+    },
   data() {
       return {
-       
+       name:'',
+       email:'',
+       password:''
       }
   },
   methods: {
-     
+     ...mapMutations('login', ['updateLoginStatus']),
+     submit () {
+        let data = {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        }
+        api.register(data).then(() => {
+          this.$message({message: 'Success', type: 'success'});
+          this.name='';
+          this.email='';
+          this.password=''
+        }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+        })
+      },
   }
   
   
@@ -68,7 +94,7 @@ export default {
   background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
   .form{
     //   border: 1px solid black;
-      height: 363px;
+      height: 380px;
       background-color: white;
       width: 385px;
       padding: 24px;

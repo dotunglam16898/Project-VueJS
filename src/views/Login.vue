@@ -8,20 +8,20 @@
              </div>
              <div class="formInputWrap">
                  <div class="input-wrap">                     
-                    <input type="text" placeholder="Email" class="sui-input" @input="onChangeEmail($event.target.value)" >
-                    <span class="textRed">{{emailErrorMsg}}</span>
+                    <input type="text" placeholder="Email" class="sui-input"  v-model="email">
+                    <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
                  </div>
              </div>
              <div class="formInputWrap">
                  <div class="inpur-wrap">
-                     <input type="password" placeholder="Password" class="sui-input" @input="onChangePass($event.target.value)">
-                     <span class="textRed">{{passErrorMsg}}</span>
+                     <input type="password" placeholder="Password" class="sui-input" v-model="password">
+                     <!-- <span class="textRed">{{passErrorMsg}}</span> -->
                  </div>               
                 <div class="forgot" @click="register()">
                     <span class="forgotPwd">Đăng ký</span>
                 </div>               
              </div>
-              <button class="submitButton" @click="submit()">          
+              <button class="submitButton" @click="handleLogin()">          
                  <span>ĐĂNG NHẬP</span>             
              </button>
          </div>
@@ -30,22 +30,74 @@
 </template>
 
 <script> 
+import {mapState, mapMutations} from 'vuex'
+  import axios from 'axios'
 
 export default {
    
   data() {
       return {
-       
+       email: '',
+        password: '',
       }
   },
+  computed: {
+      ...mapState('auth', ['isAuthenticated']),
+  },
   methods: {
-     submit() {
-         this.$router.push({path: '/admin/main'})
-     },
-     register() {
-         this.$router.push({path: '/register'})
-     }
-  }
+      ...mapMutations('auth', ['changeLoginStatus']),
+    //  submit() {
+    //      this.$router.push({path: '/admin/main'})
+    //  },
+    //  register() {
+    //      this.$router.push({path: '/register'})
+    //  }
+    // handleLogin () {
+    //     let data = {
+    //       email: this.email,
+    //       password: this.password,
+    //     }
+    //     api.login(data).then((response) => {
+    //       this.$message({message: 'Success', type: 'success'});
+    //       localStorage.setItem('access_token', response.data.access_token)
+    //       this.updateLoginStatus({isAuthenticated: true})
+    //       if (this.$router.currentRoute.name !== 'Admin') {
+    //         this.$router.push({ path: '/admin/main' })
+    //       }
+    //     }).catch(() => {
+    //       this.$message({message: 'Error', type: 'error'});
+    //     })
+    //   }
+    handleLogin () {
+        axios({
+          method: 'post',
+          url: 'http://vuecourse.zent.edu.vn/api/auth/login',
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+        }).then((response) => {
+          this.$message({
+            message: 'Success',
+            type: 'success'
+          });
+          localStorage.setItem('access_token', response.data.access_token)
+          this.changeLoginStatus({isAuthenticated: true})
+          if (this.$router.currentRoute.name !== 'Main') {
+            this.$router.push({ name: 'Admin' })
+          }
+        }).catch(() => {
+          this.$message({
+            message: 'Error',
+            type: 'error'
+          });
+        })
+    },
+    register() {
+      this.$router.push({ path: '/register' })
+    }
+  },
+  
   
   
 }
@@ -63,7 +115,14 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: #0093e9;
-  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+//   background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+    background-image: url("https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=en-US");
+    background-repeat: no-repeat;
+    background-size: cover;
+    // background-position: center;
+    // background-attachment: fixed;
+    // background-position: center;
+    //  background-position: 50%;
   .form{
     //   border: 1px solid black;
       height: 363px;

@@ -11,16 +11,18 @@
                     <div class="right">
                         <div class="formInputWrap">
                             <div class="input-wrap">                     
-                            <input type="text" placeholder="Nhập Tên" class="sui-input" >
+                            <input type="text"  class="sui-input"   v-model="name2">
                             <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
                             </div>
                         </div>
-                        <div class="formInputWrap">
+                        <!-- <div class="formInputWrap">
                             <div class="input-wrap">                     
-                            <input type="text" placeholder="Nhập Email" class="sui-input"  >
-                            <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
+                            <input type="text"  class="sui-input"  :value="authUser.email" v-model="email">
+                            
                             </div>
-                        </div>
+                        </div> -->
+
+                        <h3>Cập nhật mật khẩu</h3>
                         <div class="formInputWrap">
                             <div class="input-wrap">                     
                             <input type="password" placeholder="Nhập mật khẩu" class="sui-input"  >
@@ -33,30 +35,35 @@
                             <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
                             </div>
                         </div>
-                        <button class="submitButton" @click="submit()">          
+                        <button class="submitButton" @click="updateUser">          
                             <span>Lưu</span>             
                         </button>
                         <div class="backLogin" style="margin-top:25px">
                             <div class="previous">
-                                <router-link to="/login" style="text-decoration:none">
-                                <span style="color:#0080dd;"> <i class="el-icon-back"></i> Trở về trang đăng nhập</span>
+                                <router-link to="/admin" style="text-decoration:none">
+                                <span style="color:#0080dd;"> <i class="el-icon-back"></i> Trở về </span>
                                 </router-link>
                             </div>
                         </div>
                     </div>
                 </el-col>
                 <el-col :span="12">
-                    <div class="left">
-                        <p>Ảnh đại diện</p>
-                        <el-upload
-                        class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                        <i v-else class="el-icon-plus avatar-uploader-icon" style="border:1px solid black"></i>
-                        </el-upload>
+                    <div class="upload">
+                      <span style="margin-left: 33px;">Ảnh đại diện</span>
+                      <label for="file" @mouseover="deleteOptionUp" @mouseleave="deleteOptionDown">
+                        <div v-if="!this.img" class="image" ref="imageDefault">
+                          <el-image>
+                            <div slot="error" class="image-slot">
+                              <i class="el-icon-picture-outline"></i>
+                            </div>
+                          </el-image>
+                        </div>
+                        <img v-else ref="imagePreview" :src="img" alt="" class="image" id="image-preview">
+                        <div class="delete-option" ref="deleteBackground">
+                          <button class="delete-button"><i class="el-icon-circle-close delete-icon" @click="deleteImage"></i></button>
+                        </div>
+                      </label>
+                      <input ref="productImage" type="file" accept="image/*" id="file" @change="onChangeImage">
                     </div>
                 </el-col>
             </el-row>
@@ -67,40 +74,82 @@
 </template>
 
 <script> 
-
+import {mapState, mapMutations} from 'vuex'
+import api from '../api'
 export default {
-   
+
   data() {
       return {
        imageUrl: '',
        dialogImageUrl: '',
-        dialogVisible: false
+        dialogVisible: false,
+        name2:'',
+        image:'',
+        img:''
       }
   },
+   computed: {
+      ...mapState('login', ['authUser']),
+  },
   methods: {
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+     ...mapMutations('login', ['updateAuthUser']),
+    onChangeImage(e) {
+      if (e.target.files.length) {
+        this.image = e.target.files[0]
+        this.img = true
+        this.img = URL.createObjectURL(e.target.files[0])
+        this.$emit('onChangeImage', this.image)
+        console.log(this.img)
+      }
     },
-    // handleRemove(file, fileList) {
-    //     console.log(file, fileList);
-    //   },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-    beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('Avatar picture must be JPG format!');
-        }
-        if (!isLt2M) {
-          this.$message.error('Avatar picture size can not exceed 2MB!');
-        }
-        return isJPG && isLt2M;
+    deleteOptionUp() {
+      if (this.image) {
+        this.$refs.deleteBackground.style.display = 'block'
+      }
+    },
+    deleteOptionDown() {
+      if (this.img) {
+        this.$refs.deleteBackground.style.display = 'none'
+      }
+    },
+    deleteImage() {
+      if (this.image) {
+        this.image = ''
+        this.img = ''
+        this.$refs.deleteBackground.style.display = 'none'
+      }
+    },
+    updateUser() {
+      // const formData = new FormData();
+      // formData.append('name',this.name2)
+      // if(this.image) {
+      //   data.append('avatar',this.image)
+      // }
+      let data = {
+        name:this.name2,
+        // avatar:this.image
+      }
+      api.updateUser(data).then(() => {
+        this.$message({message:'Success',type:'success'});
+        this.name2=''
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
     }
-  }
+  },
+  // watch: {
+  //   isOpen (value) {
+  //     if (value) {
+  //       this.image = false
+  //       this.img = false
+  //     }
+  //   },
+  //   productImg(value) {
+  //     if (value) {
+  //       this.img = this.productImg
+  //     }
+  //   }
+  // }
   
   
 }
@@ -121,7 +170,7 @@ export default {
   background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
   .form{
     //   border: 1px solid black;
-      height: 428px;
+      height: 447px;
       background-color: white;
       width: 688px;
       padding: 24px;
@@ -196,5 +245,40 @@ export default {
     height: 178px;
     display: block;
   }
-
+.upload {
+    padding-top: 10px;
+    position: relative;
+    #file {
+      display: none;
+    }
+    .image {
+      margin-top: 24px;
+      width: 312px;
+      height: 263px;
+      border: 1px solid #dcdfe6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 34px;
+    }
+    .delete-option {
+      width: 360px;
+      height: 263px;
+      background: rgba(16 16 16 / 30%);
+      position: absolute;
+      display: none;
+      top: 51px;
+      left: 1px;
+      .delete-button {
+        width: auto;
+        font-size: 25px;
+        float: right;
+        cursor: pointer;
+        color: #d8c9c9;
+        background: none;
+        border: none;
+        outline: none;
+      }
+    }
+  }
 </style>

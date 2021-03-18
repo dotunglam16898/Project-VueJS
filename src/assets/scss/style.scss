@@ -1,0 +1,513 @@
+.main {
+    display: flex;
+    text-align: left;
+    line-height: 17px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    // height: 100%;
+    // overflow-x: scroll;
+    // overflow-x: auto;
+    //   white-space: nowrap;
+      // height: 50%;
+   
+  }
+  .card {
+    background-color: #ebecf0;
+    width: 272px;
+    // height: 200px;
+    max-height: 464px;
+    // border: 1px solid black;
+    margin-left: 8px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .sortable:hover{
+    background-color: #ebecf0;
+    display: block;
+  }
+  .card-directory {
+    background-color: #ebecf0;
+    width: 272px;
+    // height: 200px;
+    max-height: 100%;
+    // border: 1px solid black;
+    margin-left: 8px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-directory2 {
+    background-color: #ebecf0;
+    width: 272px;
+    // height: 200px;
+    max-height: 100%;
+    // border: 1px solid black;
+    margin-left: 8px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .tieude{
+    font-weight: 600;
+    color: #172b4d;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 16px;
+    margin-left: 14px;
+  }
+  
+  .title {
+    height: 51px;
+    border: 1px solid black  !important;
+  }
+  .body-card{
+    border: 1px solid blue;
+  }
+  .sortable{
+    background-color: white;
+    cursor: pointer;
+    margin: 0 4px;
+    padding: 0 4px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    height: 77px;
+    box-shadow: 0 1px 0 rgb(9 30 66 / 25%);
+    // max-height: 77px;
+    
+  }
+  
+  .add-card {
+    background-color: #ebecf0;
+    cursor: pointer;
+    margin: 0 4px;
+    padding: 0 4px;
+    margin-bottom: 10px;
+    height: 42px;
+    color: #5e6c84 ;
+    font-size: 14px;
+    line-height: 52px;
+    font-weight: 400;
+    margin-left: 20px;
+  }
+  .main .sortable-drag {
+    opacity: 1;
+  }
+  .text-font{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    margin-left: 5px;
+    font-weight: 400;
+  }
+  .list-card {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 353px;
+    // height: 500px;
+  }
+  .u-fancy-scrollbar::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+  }
+  .left{
+    // text-align: center;
+    // border: 1px solid blue;
+    margin-left: 30px;
+  }
+  .right {
+    // border: 1px solid red;
+  }
+  .dialog-test{
+    // background-color: red;
+  }
+  .label {
+    // border: 1px solid black;
+    // background-color: chartreuse;
+    border-radius: 3px;
+      box-sizing: border-box;
+      display: block;
+      float: left;
+      font-weight: 600;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px 4px 0;
+      min-width: 40px;
+      padding: 0 12px;
+      width: auto;
+      color:  #fff;;
+  }
+  .add-label{
+     float: left;
+     border-radius: 3px;
+      box-sizing: border-box;
+      display: block;
+      height: 32px;
+      line-height: 32px;
+      margin: 0 4px 4px 0;
+      min-width: 40px;
+      padding: 0 12px;
+      width: auto;
+      background-color: rgba(9,30,66,.04);
+      cursor: pointer;
+  }
+  .description {
+    margin-top: 33px;
+    font-size: 17px;
+    color: #172b4d;
+    // margin-left: 10px;
+  }
+  .deadline {
+    margin-top: 64px;
+  }
+  .el-date-editor.el-input{
+    // margin-left: 10px;
+  }
+  .todo {
+    margin-top: 64px;
+    font-size: 17px;
+    color: #172b4d;
+  }
+  .percent-bar{
+    margin-top: 24px;
+  }
+  .button-todo{
+    margin-top: 10px;
+  }
+  .button-right{
+    margin-top: 10px
+  }
+  .button-right2{
+    margin-top: 16px;
+    margin-left: 31px;
+  }
+  .list-card-labels{
+    // border: 1px solid black;
+    height: 18px;
+    // overflow: auto;
+    // position: relative;
+  }
+  .card-name2{
+    // border: 1px solid blue;
+    color: #172b4d;
+    font-size: 14px;
+  }
+  .card-label{
+      float: left;
+      font-size: 12px;
+      font-weight: 700;
+      height: 8px;
+      line-height: 100px;
+      margin: 0 4px 4px 0;
+      max-width: 40px;
+      min-width: 40px;
+      padding: 0;
+      text-shadow: none;
+      width: auto;
+      // background-color: #61bd4f;
+      text-overflow: ellipsis;
+      border-radius: 4px;
+      margin-top: 5px;
+  }
+  .card-button-mini{
+    margin-top: 8px;
+  }
+  .input-search{
+    // border-top: 1px solid black
+  }
+  .body-add-label{
+    margin-top: 10px;
+  }
+  .lable-color1{
+    background-color: #61bd4f;
+    height: 32px;
+    border-radius: 3px;
+  }
+  .row1{
+    margin-top: 10px;
+  }
+  .pencil-icon{
+    margin-left: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+  }
+  .delete-icon{
+    margin-left: 10px;
+    font-size: 19px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    margin-top: 3px;
+  }
+  .edit{
+    font-size: 17px;
+    color: #42526e;
+  }
+  .lable-top-color{
+    margin-top: 5px;
+    color: white;
+    margin-left: 10px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .lable-top-color2{
+    margin-top: 10px;
+    color: white;
+    margin-left: 10px;
+  }
+  .add-new-lable{
+    height: 32px;
+    // border: 1px solid black;
+    border-radius: 3px;
+    background-color: rgb(239, 239, 239);
+    color:  #172b4d;
+    margin-top: 10px;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .todo-body{
+    margin-top: 18px;
+  }
+  .todo-input{
+    margin-top: 10px;
+  }
+  .add-new-todo{
+    margin-top: 16px;
+    // display: none
+  }
+  .button-todo-detail{
+    margin-top: 10px;
+  }
+  .label-name1{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+  }
+  .text-area-add{
+    height: 66px;
+    width: 252px;
+    border-radius: 3px;
+    cursor: pointer;
+    max-width: 300px;
+    min-height: 20px;
+    border: none;
+    margin-left: -7px;
+  }
+  .closee{
+    font-size: 26px;
+    margin-left: 10px;
+    margin-top: 13px;
+    cursor: pointer;
+  }
+  .closed{
+    font-size: 18px;
+    margin-left: 10px;
+    margin-top: 3px;
+    cursor: pointer;
+  
+  }
+  .closeee{
+    font-size: 26px;
+    margin-left: 67px;
+    margin-top: 13px;
+    cursor: pointer;
+  }
+  .closeeee{
+     font-size: 18px;
+    margin-left: 10px;
+    margin-top: 13px;
+    cursor: pointer;
+  }
+  .title-input1{
+    height: 28px;
+      margin-top: 10px;
+      width: 251px;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      max-height: 256px;
+      border-radius: 3px;
+      border: none;   
+  }
+  .title-input2{
+    height: 28px;
+      margin-top: 10px;
+      width: 251px;
+      margin-left: 5px;
+      margin-bottom: 10px;
+      max-height: 256px;
+      border-radius: 3px;
+      border: 1px solid black;
+      width: 76%; 
+  }
+  .title-input3{
+    height: 36px;
+      margin-top: 10px;
+      width: 298px;
+      margin-left: -1px;
+      margin-bottom: 10px;
+      max-height: 256px;
+      border-radius: 3px;
+      border: none;
+      box-shadow: inset 0 0 0 2px #dfe1e6;
+    background-color: #fafbfc;
+  }
+  .input-add-directory{
+    width: 97%;
+    height: 30px;
+    border-radius: 3px;
+  }
+  .card-label-detail1{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #61bd4f;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail2{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #f2d600;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail3{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #ff9f1a;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail4{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #eb5a46;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail5{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #c377e0;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail6{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #0079bf;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail7{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #00c2e0;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail8{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #51e898;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail9{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #ff78cb;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .card-label-detail10{
+    float: left;
+      height: 32px;
+      margin: 0 8px 8px 0;
+      padding: 0;
+      width: 48px;
+      background-color: #344563;
+      border-radius: 4px;
+      cursor: pointer;
+  }
+  .icon-done{
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: -1px;
+  }
+  .form-add-label{
+    height: 500px;
+  }
+  .edit-description{
+    background-color: rgba(9,30,66,.04);
+    color: #172b4d;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 14px;
+    margin-left: 8px;
+    font-weight: 400;
+  }
+  .color-button-gray{
+    background-color: rgba(9,30,66,.04);
+      box-shadow: none;
+  }
+  .deline {
+    position: relative;
+    border: 1px solid #DCDFE6;
+    border-radius: 4px;
+    width: 140px;
+    height: 31px;
+    background-color: rgba(9, 30, 66, 0.04);
+    color: #606266;
+    .input-deline{
+      position: absolute;
+      top: -10px;
+      z-index: 1000;
+      opacity: 0;
+    }
+  }
+  .block{
+    position: relative;
+    .inline{
+      position: absolute;
+      z-index: 1000;
+      top: 10px;
+      left: 182px;
+      // border: 1px solid black;
+      color: #172b4d;
+      border-radius: 2px;
+    }
+  }
+.listChild{
+  margin-top: 10px;
+}
+.title-todo{
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+}
