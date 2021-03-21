@@ -118,7 +118,7 @@
         <span slot="title" style="display:none" ref="inputInCardDetail"><input type="text" class="title-input2" v-model="cards.title" @keydown.enter="editTitleCard(cards.title,cards.id)" @blur="nothing"></span>
         <el-row>
           <el-col :span="16">
-            <div class="right">
+            <div class="right" style="min-height:600px">
               <div class="label-name1">NHÃN</div>
               <div class="line-label button-right">
                 <div  v-for="(label,index) in cards.labels" :key="index">
@@ -130,7 +130,7 @@
               
               <div class="deadline">NGÀY HẾT HẠN</div>
               <div class="button-right" >
-                <el-checkbox v-model="checked2" @change="changeStatusCard(cards.id)" >
+                <el-checkbox ref="sss" v-model="checked2" @change="changeStatusCard(cards.id)" >
                   <div class="block">
                     <el-date-picker
                       v-model="cards.deadline"
@@ -165,7 +165,7 @@
                 <el-input
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4}"
-                  placeholder="Thêm mô tả chi tiết hơn1..."
+                  placeholder="Thêm mô tả chi tiết hơn..."
                   v-model="description"
                   @change="addDescription(cards.id)" style="background-color: rgba(9,30,66,.04);">
                 </el-input>
@@ -174,7 +174,7 @@
                 <el-input
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4}"
-                  placeholder="Thêm mô tả chi tiết hơn2..."
+                  placeholder="Thêm mô tả chi tiết hơn..."
                   v-model="description2"
                   @change="addDescription2(cards.id)" style="background-color: rgba(9,30,66,.04);">
                 </el-input>
@@ -527,7 +527,7 @@ export default {
         directory_id : b.parentElement.getAttribute('id')
       }
       api.changeIndexCard(data,id).then(() => {
-        this.$message({message:'Success',type:'success'});
+        // this.$message({message:'Success',type:'success'});
         this.getData()
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
@@ -540,7 +540,7 @@ export default {
         index:event.draggedContext.futureIndex,
       }
       api.changeIndexDirectory(data,id).then(() => {
-        this.$message({message:'Success',type:'success'});
+        // this.$message({message:'Success',type:'success'});
         this.getData()
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
@@ -671,6 +671,7 @@ export default {
        api.storeDeadline(data,id).then(() => {
         this.$message({message:'Success',type:'success'});
         this.cardDetail(id);
+        this.getData()
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
@@ -1171,7 +1172,7 @@ export default {
         description: this.description
       }
       api.updateCard(data,id).then(() => {
-        this.$message({message:'Success',type:'success'});
+        // this.$message({message:'Success',type:'success'});
         this.$refs.editFormDes.style.display = 'none';
         this.$refs.editFormDes2.style.display = 'none';
         this.cardDetail(id);
@@ -1184,7 +1185,7 @@ export default {
         description: this.description2
       }
       api.updateCard(data,id).then(() => {
-        this.$message({message:'Success',type:'success'});
+        // this.$message({message:'Success',type:'success'});
         this.$refs.editFormDes2.style.display = 'none';
         this.cardDetail(id);
       }).catch(() => {
@@ -1218,11 +1219,25 @@ export default {
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
-    }
+    },
+    // aa(status) {
+    //   if (status == 3) {
+    //     this.$refs.sss.checked = true;
+    //   }
+    // }
   },
+
   mounted() {
     this.getData();
+    
   },
+  // watch: {
+  //   cards ()  {
+  //     if (this.cards.status == 3) {
+  //       this.aa(this.cards.status)
+  //     }
+  //   }
+  // }
   
 }
 </script>

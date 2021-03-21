@@ -80,7 +80,7 @@ export default {
           },
         }).then((response) => {
           this.$message({
-            message: 'Success',
+            message: 'Welcome back',
             type: 'success'
           });
           localStorage.setItem('access_token', response.data.access_token)

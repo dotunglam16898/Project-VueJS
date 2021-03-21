@@ -132,6 +132,8 @@ export default {
     }
     .img-dawn {
         background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2333x1600/85d3896e5e19f95591a72b7ab5879f41/photo-1612485222394-376d81a3e829.jpg");
+        // background-image: url("https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=en-US");
+        // background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2333x1600/85d3896e5e19f95591a72b7ab5879f41/photo-1612485222394-376d81a3e829.jpg");
         height: 92vh;
         background-size: cover;
         background-position: 50%;
