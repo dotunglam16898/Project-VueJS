@@ -19,7 +19,8 @@
                  </div>               
                 <div class="forgot" @click="register()">
                     <span class="forgotPwd">Đăng ký</span>
-                </div>               
+                    
+                </div>
              </div>
               <button class="submitButton" @click="handleLogin()">          
                  <span>ĐĂNG NHẬP</span>             
@@ -39,6 +40,7 @@ export default {
       return {
        email: '',
         password: '',
+        changePasswordVisible:false
       }
   },
   computed: {
@@ -178,6 +180,7 @@ export default {
         text-transform: none;
         letter-spacing: 0.02857em;
         cursor: pointer;
+        border: 1px solid white;
       }
   }
   .textRed{

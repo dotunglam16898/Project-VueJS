@@ -10,9 +10,9 @@
                 <el-col :span="12">
                     <div class="right">
                         <div class="formInputWrap">
-                            <div class="input-wrap">                     
-                            <input type="text"  class="sui-input"   v-model="name2">
-                            <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
+                            <div class="input-wrap">
+                              <span>Nhập tên</span>                   
+                            <input type="text"  class="sui-input" v-model="name2">
                             </div>
                         </div>
                         <!-- <div class="formInputWrap">
@@ -22,19 +22,19 @@
                             </div>
                         </div> -->
 
-                        <h3>Cập nhật mật khẩu</h3>
+                        <!-- <h3>Cập nhật mật khẩu</h3>
                         <div class="formInputWrap">
                             <div class="input-wrap">                     
                             <input type="password" placeholder="Nhập mật khẩu" class="sui-input"  >
-                            <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
+                            
                             </div>
                         </div>
                         <div class="formInputWrap">
                             <div class="input-wrap">                     
                             <input type="password" placeholder="Nhập lại mật khẩu" class="sui-input"  >
-                            <!-- <span class="textRed">{{emailErrorMsg}}</span> -->
+    
                             </div>
-                        </div>
+                        </div> -->
                         <button class="submitButton" @click="updateUser">          
                             <span>Lưu</span>             
                         </button>
@@ -43,8 +43,26 @@
                                 <router-link to="/admin" style="text-decoration:none">
                                 <span style="color:#0080dd;"> <i class="el-icon-back"></i> Trở về </span>
                                 </router-link>
+                                <span style="color:#0080dd;float:right;cursor: pointer;" @click="changePasswordVisible = true"> Đổi mật khẩu </span>
                             </div>
                         </div>
+                         <el-dialog
+                          title="Đổi mật khẩu"
+                          :visible.sync="changePasswordVisible"
+                          width="30%">
+                          <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                            <el-form-item label="Mật khẩu mới" prop="pass">
+                              <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item label="Nhập lại" prop="checkPass">
+                              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                              <el-button type="primary" @click="submitForm('ruleForm')">Xác nhận</el-button>
+                              <el-button @click="resetForm('ruleForm')">Hủy</el-button>
+                            </el-form-item>
+                          </el-form>
+                        </el-dialog> 
                     </div>
                 </el-col>
                 <el-col :span="12">
@@ -79,13 +97,49 @@ import api from '../api'
 export default {
 
   data() {
+    var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please input the password'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('Please input the password again'));
+        } else if (value !== this.ruleForm.pass) {
+          callback(new Error('Two inputs don\'t match!'));
+        } else {
+          callback();
+        }
+      };
       return {
        imageUrl: '',
        dialogImageUrl: '',
         dialogVisible: false,
         name2:'',
         image:'',
-        img:''
+        img:'',
+        user:[],
+        baseUrl:'http://vuecourse.zent.edu.vn/storage/users/',
+        changePasswordVisible:false,
+        changePass:'',
+        ruleForm: {
+          pass: '',
+          checkPass: '',
+          age: ''
+        },
+        rules: {
+          pass: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          checkPass: [
+            { validator: validatePass2, trigger: 'blur' }
+          ],
+        }
       }
   },
    computed: {
@@ -102,6 +156,40 @@ export default {
         console.log(this.img)
       }
     },
+    submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let data = {
+              password:this.ruleForm.pass,
+              password_confirmation:this.ruleForm.checkPass
+            }
+            api.updatePassword(data).then(() => {
+              this.$message({message:'Success',type:'success'});
+            }).catch(() => {
+                this.$message({message: 'Error', type: 'error'});
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    // updatePassword(){
+    //   let data = {
+    //     password:this.changePass
+        
+    //   }
+    //   api.updatePassword(data).then(() => {
+    //     this.$message({message:'Success',type:'success'});
+    //     this.changePass='';
+    //     this.changePasswordVisible = false
+    //   }).catch(() => {
+    //       this.$message({message: 'Error', type: 'error'});
+    //   })
+    // },
     deleteOptionUp() {
       if (this.image) {
         this.$refs.deleteBackground.style.display = 'block'
@@ -120,36 +208,28 @@ export default {
       }
     },
     updateUser() {
-      // const formData = new FormData();
-      // formData.append('name',this.name2)
-      // if(this.image) {
-      //   data.append('avatar',this.image)
-      // }
-      let data = {
-        name:this.name2,
-        // avatar:this.image
+      const data = new FormData();
+      data.append('name',this.name2)
+      if(this.image) {
+        data.append('avatar',this.image)
       }
+      // let data = {
+      //   name:this.name2,
+      //   // avatar:this.image
+      // }
       api.updateUser(data).then(() => {
         this.$message({message:'Success',type:'success'});
-        this.name2=''
+        this.name2='';
+        api.getAuthUser().then((response)=>{
+          this.user= response.data
+          this.img = this.baseUrl + response.data.avatar
+        })
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
     }
   },
-  // watch: {
-  //   isOpen (value) {
-  //     if (value) {
-  //       this.image = false
-  //       this.img = false
-  //     }
-  //   },
-  //   productImg(value) {
-  //     if (value) {
-  //       this.img = this.productImg
-  //     }
-  //   }
-  // }
+  
   
   
 }
@@ -207,6 +287,7 @@ export default {
             padding: 12px;
             border: 1px solid #d8e0ea;
             outline: unset;
+            margin-top: 10px;
          }           
           
 }
@@ -221,6 +302,8 @@ export default {
     text-transform: none;
     letter-spacing: 0.02857em;
     cursor: pointer;
+    outline: none;
+    border: 1px solid white;
 }
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;

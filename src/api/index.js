@@ -52,8 +52,15 @@ export default {
   },
   updateUser(data) {
     return apiAxios({
-      method: 'put',
+      method: 'post',
       url: '/users',
+      data: data
+    })
+  },
+  updatePassword(data) {
+    return apiAxios({
+      method: 'put',
+      url: '/users/password',
       data: data
     })
   },
@@ -74,6 +81,13 @@ export default {
     return apiAxios({
       method: 'put',
       url: '/directories/' + id,
+      data: data
+    })
+  },
+  changeIndexDirectory(data,id) {
+    return apiAxios({
+      method: 'put',
+      url: '/directories/' + id + '/index',
       data: data
     })
   },
@@ -120,6 +134,13 @@ export default {
     return apiAxios({
       method: 'put',
       url: '/cards/' + id + '/directory',
+      data: data
+    })
+  },
+  changeIndexCardInList(data,id) {
+    return apiAxios({
+      method: 'put',
+      url: '/cards/' + id + '/index',
       data: data
     })
   },
@@ -211,5 +232,25 @@ export default {
       data: data
     })
   },
+  storeFile(data,id) {
+    return apiAxios({
+      method: 'post',
+      url: '/cards/'+ id + '/upload-file',
+      data: data
+    })
+  },
+  deleteFile(id) {
+    return apiAxios({
+      method: 'delete',
+      url: '/files/'+ id ,    
+    })
+  },
+  updateFile(data,id) {
+    return apiAxios({
+      method: 'put',
+      url: '/files/'+ id ,
+      data: data  
+    })
+  }
 
 }

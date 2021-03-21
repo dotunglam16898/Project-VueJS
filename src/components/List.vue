@@ -1,6 +1,6 @@
 <template> 
 <div class="main">   
-  <draggable class="list-group" :list="directory" group="people" style="display:flex" >
+  <draggable class="list-group" :list="directory" group="people" style="display:flex" :move="test3">
     <div v-for="(element,index) in directory" :key="index" :id="element.id">
        <div class="card" >    
             <el-row>
@@ -18,7 +18,7 @@
             <input type="text" class="title-input1"  @keydown.enter="noChange(index)" ref="indexInputTitle" v-model="inputDirectory" style="display:none" @blur="nothingtoshow(index)">
             <div class="list-card u-fancy-scrollbar" id="style-3">
               <draggable :list="element.cards" item-key="id" :id="directory.id" :move="test2" group="todo">
-                <div class="sortable" v-for="(card,indexCard) in element.cards" :key="indexCard" :id="card.id">
+                <div class="sortable" v-for="(card,indexCard) in element.cards" :key="indexCard" :id="card.id" >
                     <div class="list-card-labels">
                       <el-row>
                         <el-col :span="20" >
@@ -27,13 +27,13 @@
                         </div>
                         </el-col>
                         <el-col :span="4" style="height:19px;float: right;">
-                        <div class="lable-color2" ><button class="delete-icon" @click="deleteCard(card.id)"><i class="el-icon-close edit" ></i></button></div> 
+                        <div class="lable-color2" ref="trashIcon" ><button class="delete-icon" @click="deleteCard(card.id)"><i class="el-icon-delete edit" ></i></button></div> 
                         </el-col>
                       </el-row>   
                     </div>
                     <el-row>
                       <el-col :span="24">
-                        <div class="card-name2" @click="cardDetail(card.id)">
+                        <div class="card-name2" @click="cardDetail(card.id)"  >
                           {{card.title}}
                         </div>
                       </el-col>
@@ -42,6 +42,7 @@
                     <div class="card-button-mini" v-if="card.deadline !== null">
                       <el-button icon="el-icon-time" size="mini" type="danger" v-if="card.status == 1 " style="color: #fff;background-color: #ec9488;border:none !important">{{formatDate(card.deadline)}}</el-button>
                       <el-button icon="el-icon-time" size="mini" type="danger" v-if="card.status == 3 " style="color: #fff;background-color: #61bd4f;border:none !important">{{formatDate(card.deadline)}}</el-button>
+                      <el-button icon="el-icon-time" size="mini" type="danger" v-if="card.status == 2 " style="color: #fff;background-color: #f2d600;border:none !important">{{formatDate(card.deadline)}}</el-button>
                     </div>
                 </div>
 
@@ -129,7 +130,7 @@
               
               <div class="deadline">NGÀY HẾT HẠN</div>
               <div class="button-right" >
-                <el-checkbox v-model="checked2" @change="changeStatusCard(cards.id)">
+                <el-checkbox v-model="checked2" @change="changeStatusCard(cards.id)" >
                   <div class="block">
                     <el-date-picker
                       v-model="cards.deadline"
@@ -137,16 +138,28 @@
                       >
                     </el-date-picker>
                     <div class="inline" ref="statusDeadline" v-if="cards.status == 1 " style="color: #fff;background-color: #ec9488;">QUÁ HẠN</div>
-                    <div class="inline" ref="statusDeadline" v-if="cards.status == 2 " >GẦN HẾT HẠN</div>
+                    <div class="inline" ref="statusDeadline" v-if="cards.status == 2 " style="color: #172b4d;background-color: #f2d600;">GẦN HẾT HẠN</div>
                     <div class="inline" ref="statusDeadline" v-if="cards.status == 3 " style="color: #fff;background-color: #61bd4f;">HOÀN TẤT</div>
                   </div>
                 </el-checkbox>
+                <!-- <el-checkbox v-model="cards.status" @change="changeStatusCard(cards.id)"  v-if="cards.status !== 3 ">
+                  <div class="block">
+                    <el-date-picker
+                      v-model="cards.deadline"
+                      type="datetime" style="width: 299px;"
+                      >
+                    </el-date-picker>
+                    <div class="inline" ref="statusDeadline" v-if="cards.status == 1 " style="color: #fff;background-color: #ec9488;">QUÁ HẠN</div>
+                    <div class="inline" ref="statusDeadline" v-if="cards.status == 2 " style="color: #172b4d;background-color: #f2d600;">GẦN HẾT HẠN</div>
+                    <div class="inline" ref="statusDeadline" v-if="cards.status == 3 " style="color: #fff;background-color: #61bd4f;">HOÀN TẤT</div>
+                  </div>
+                </el-checkbox> -->
               </div>
 
               <div class="description">
                 <i class="el-icon-s-unfold" style="margin-right:10px ; font-size: 21px;"></i>Mô tả
                 <!-- <el-button size="small" class="edit-description"  ref="editButtonDes" @click="showFormEditDes">Chỉnh sửa</el-button> -->
-                </div>
+              </div>
               <div class="button-right2" ref="cardDes" @click="showFormEditDes" @blur="closeForm">{{cards.description}}</div>
               <div class="button-right"  ref="editFormDes" v-if="cards.description == null">
                 <el-input
@@ -162,24 +175,56 @@
                   type="textarea"
                   :autosize="{ minRows: 2, maxRows: 4}"
                   placeholder="Thêm mô tả chi tiết hơn2..."
-                  v-model="description"
-                  @change="addDescription(cards.id)" style="background-color: rgba(9,30,66,.04);">
+                  v-model="description2"
+                  @change="addDescription2(cards.id)" style="background-color: rgba(9,30,66,.04);">
                 </el-input>
               </div>
 
+              <div class="file">
+                <i class="el-icon-paperclip" style="margin-right:10px ; font-size: 21px;font-weight: 900;"></i>Các tập tin đính kèm
+              </div>
+              <div class="content-file" v-for="file in cards.files" :key="file.id">
+                <div class="box-file">
+                  <img :src="'http://vuecourse.zent.edu.vn/storage/'+ file.path" alt="">
+                  <div class="content-text">
+                    <p>{{file.name}}</p>
+                    <span>Đã thêm {{formatDate(file.created_at)}}</span>-
+                    <span class="btn" @click="deleteFile(file.id,cards.id)">Xóa</span>-
+                    <!-- <span class="btn-editFile">Chỉnh sửa</span> -->
+                    <el-popover
+                      placement="bottom"
+                      title="Sửa tệp đính kèm"
+                      width="300"
+                      trigger="click"
+                      content="this is content, this is content, this is content">
+                      <span class="btn-editFile" slot="reference">Chỉnh sửa</span>
+                      <div>
+                        <div>
+                          <label for="">Liên kết tên</label>
+                        </div>
+                        <input type="text" class="title-input4" v-model="fileName">
+                        <el-button type="success" size="small" style="margin-top: 34px;background-color: #5aac44;color: #fff;" @click="editFile(file.id,cards.id)">Cập nhật</el-button>
+                      </div>
+                     
+                    </el-popover>
+                  </div>
+                </div>
+              </div>
+              
               <!-- Thêm mới 1 việc cần làm trong chi tiết thẻ -->
               <div class="loop-add-todo" v-for="(todo,index) in cards.check_lists" :key="index">
-                <div class="todo"><i class="el-icon-success" ></i>{{todo.title}}
-                <el-button style="float:right" size="small" @click="deleteCheckList(todo.id,cards.id)">Xóa </el-button>
+                <div class="todo"><i class="el-icon-success" style="margin-right:10px"></i>{{todo.title}}
+                <el-button style="float:right" size="small" @click="deleteCheckList(todo.id,cards.id)" class="button-add-new">Xóa </el-button>
               </div>
               <div class="percent-bar">
-                <el-progress :percentage="50"></el-progress>
+                <el-progress :percentage="checkPercentComplete(todo.check_list_childs)" style="width:520px"></el-progress>
               </div>
-              <div class="listChild" v-for="child in todo.check_list_childs" :key="child.id">
+              <div class="listChild" v-for="(child,index) in todo.check_list_childs" :key="index">
                 <el-row>
                   <el-col :span="2" > 
                     <div ref="checkbox" style="display:block">
-                      <el-checkbox v-model="checked3" @change="doneChild(child.id,cards.id)"></el-checkbox>
+                      <el-checkbox v-if="child.status == 1"  v-model="child.status" checked @change="doneChild(child.id,cards.id,index)"></el-checkbox>
+                      <el-checkbox v-else  v-model="child.status"  @change="doneChild(child.id)"></el-checkbox>
                     </div>
                   </el-col>
                   <el-col :span="22" >
@@ -199,11 +244,11 @@
                 </div>
                 <div class="button-todo-detail">
                   <el-button type="success" size="small" @click="saveCheckListChild(todo.id,cards.id)">Thêm</el-button>
-                  <el-button  icon="el-icon-close" size="small" @click="hide"></el-button>
+                  <el-button type="danger"  size="small" @click="hide(index)"  >Hủy</el-button>
                 </div>
               </div>
               <div class="button-todo" ref="hidden2" style="display:block">
-                 <el-button @click="addNewTodo(index)" size="small">Thêm một mục</el-button>
+                 <el-button @click="addNewTodo(index)" size="small"  class="button-add-new">Thêm một mục</el-button>
               </div>
               </div>                   
             </div>
@@ -215,13 +260,16 @@
                 THÊM VÀO THẺ
               </div>
               <div class="button-right">
-                <el-button  icon="el-icon-circle-plus-outline" size="small" @click="getLabel" class="color-button-gray" style="width: 140px;height: 32px;font-size: 14px;">Nhãn</el-button>
+                <button style="width:140px;height:32px;border:none;border: 1px solid #DCDFE6;border-radius:3px;color: #606266;font-size: 14px;background-color: rgba(9, 30, 66, 0.04);cursor: pointer;outline:none" @click="getLabel">
+                  <span class="el-icon-circle-plus-outline" style="margin-left:-24px"></span>
+                  <span style="margin-left:4px;margin-right:23px">Nhãn</span>
+                </button>
               </div>
               <div class="button-right">
                 <el-button icon="el-icon-circle-check" @click="dialogTodoVisible = true" class="color-button-gray" style="width: 140px;height: 32px;font-size: 14px;" size="small">Việc cần làm</el-button>
               </div>
               
-              <div class="button-right deline">
+              <div class="button-right deline" style="cursor: pointer;">
                 <div class="input-deline">
                   <el-date-picker
                     v-model="value1"
@@ -234,14 +282,22 @@
                 <span style="line-height: 30px;margin-left: 3px;">Ngày hết hạn</span>
               </div>
               <div class="button-right">
-                <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  multiple
-                  :limit="3"  
-                  >
-                  <el-button icon="el-icon-paperclip" class="color-button-gray" style="width: 140px;height: 32px;font-size: 14px;" size="small">Đính kèm</el-button>
-                </el-upload>
+                <el-popover
+                  placement="bottom"
+                  title="Đính kèm từ máy tính"
+                  width="300"
+                  v-model="popoverFile"
+                  trigger="click">
+                  <div slot="reference" class="file-father">
+                      <button style="width:140px;height:32px;border:none;border: 1px solid #DCDFE6;border-radius:3px;color: #606266;font-size: 14px;background-color: rgba(9, 30, 66, 0.04);cursor: pointer;outline:none" >
+                        <span class="el-icon-paperclip" style="margin-left:-24px"></span>
+                        <span style="margin-left:4px">Đính kèm</span>
+                      </button>
+                  </div>
+                  
+                  <input type="file"  class="file-input3"  @change="onChangeFile">
+                  <el-button type="success" size="small" style="margin-top: 34px;" @click="saveFile(cards.id)">Thêm</el-button>
+                </el-popover>
               </div>
             </div>
           </el-col>
@@ -255,10 +311,9 @@
         :append-to-body="true"
         center
         width="359px" class="form-add-label" style="height:500px">
-        <span slot="title" v-if="labelDialog == false">Nhãn</span>
-        <span slot="title" v-if="labelDialog == true"><span style="float: left;cursor: pointer;" @click="closeEditLabel"><i class="el-icon-back"></i></span>Chỉnh sửa nhãn</span>
+        <span slot="title" v-if="labelDialog == false" class="tieude-nhan">Nhãn</span>
+        <span slot="title" v-if="labelDialog == true" class="tieude-nhan"><span style="float: left;cursor: pointer;" @click="closeEditLabel"><i class="el-icon-back"></i></span>Chỉnh sửa nhãn</span>
         <div class="input-search" style="display:block" ref="labelhidden1">
-          <!-- <el-input placeholder="Tìm nhãn" v-model="searchLabel" @change="searchText"></el-input> -->
           <input type="text" placeholder="Tìm nhãn" v-model="searchLabel" @keydown.enter="searchText" class="title-input3">
            <div class="body-add-label">
              <div class="label-name1">NHÃN</div>
@@ -271,13 +326,14 @@
                     <div class="lable-top-color" @click="attachLabel(label.id,cards.id)">{{label.name}}</div>        
                     </el-col>
                     <el-col :span="3">
-                      <div class="lable-top-color2" ><i class="el-icon-check"></i></div>
+                      <!-- <div class="lable-top-color2" ><i class="el-icon-check"></i></div> -->
+                      <div class="lable-top-color2" ></div>
                     </el-col>
                    </el-row>
                    </div>           
                </el-col>
                 <el-col :span="3">
-                  <div class="lable-color2"><button class="pencil-icon" @click="showFormEditLabel(label.id)"><i class="el-icon-edit edit"></i></button></div>
+                  <div class="lable-color-edit"><button class="pencil-icon" @click="showFormEditLabel(label.id)"><i class="el-icon-edit edit"></i></button></div>
                 </el-col>
                </el-row>                  
              </div>
@@ -328,6 +384,7 @@
              </div>
              <div>
                <el-button type="success" size="small" @click="saveLabel(cards.id)">Tạo mới</el-button>
+               <el-button type="danger" size="small" @click="backGetLabel">Hủy</el-button>
              </div>
           </form>
           
@@ -336,7 +393,7 @@
       <div style="height:250px;display:none" ref="labelhidden3">
           <form style="line-height: 40px">
              <label for="Tên">Tên</label>
-             <el-input placeholder="" v-model="nameLabel2"></el-input>
+             <el-input placeholder="" v-model="nameLabel2" class="input-edit-label"></el-input>
              <label for="">Chọn một màu</label>
              <div style="margin-top: 3px;">
                <span class="card-label-detail1" @click="colorEdit('#61bd4f')">
@@ -439,6 +496,7 @@ export default {
         labels:[],
         titleCardDetail:'',
         description:'',
+        description2:'',
         label: false,
         inputTodo:'',
         descriptionShow:false,
@@ -452,7 +510,10 @@ export default {
         labelId:'',
         inputEditCheckListChild:'',
         childId:'',
-        searchLabel:''
+        searchLabel:'',
+        file:'',
+        popoverFile:false,
+        fileName:''
       }
   },
   methods: {
@@ -472,6 +533,22 @@ export default {
           this.$message({message: 'Error', type: 'error'});
       })
     },
+    test3(event) {
+      console.log(event)
+      let id = event.draggedContext.element.id
+      let data = {
+        index:event.draggedContext.futureIndex,
+      }
+      api.changeIndexDirectory(data,id).then(() => {
+        this.$message({message:'Success',type:'success'});
+        this.getData()
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
+    },
+    showTrash(id){
+      this.$refs.trashIcon[id].style.display = 'block';
+    },
     attachLabel(id,cardId){
       let data = {
         label_id:id
@@ -479,7 +556,32 @@ export default {
       api.attachLabel(data,cardId).then(() => {
         this.$message({message:'Success',type:'success'});
         this.cardDetail(cardId);
-        this.rightDialogVisible = false
+        this.rightDialogVisible = false;
+        this.getData()
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
+    },
+    backGetLabel() {
+      this.$refs.labelhidden2.style.display = 'none';
+      this.$refs.labelhidden1.style.display = 'block';
+      this.$refs.buttonlabelhidden.style.display = 'block'
+    },
+    deleteFile(fileId,cardId) {
+      api.deleteFile(fileId,cardId).then(() => {
+        this.$message({message:'Success',type:'success'});
+        this.cardDetail(cardId);
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
+    },
+    editFile(fileId,cardId){
+      let data = {
+        name: this.fileName
+      }
+       api.updateFile(data, fileId).then(() => {
+        this.$message({message:'Success',type:'success'});
+        this.cardDetail(cardId);
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
@@ -492,17 +594,48 @@ export default {
           this.$message({message: 'Error', type: 'error'});
       })
     },
-    doneChild(childId,cardId){
+    onChangeFile(e){
+      if(e.target.files.length) {
+        this.file = e.target.files[0]
+      }
+    },
+    saveFile(cardId) {
+      const data = new FormData();
+      data.append('file',this.file)
+      api.storeFile(data,cardId).then(() => {
+        this.$message({message:'Success',type:'success'});
+        this.cardDetail(cardId);
+        this.popoverFile = false
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
+    },
+    doneChild(childId){
       let data = {
         status:1
       }
       api.changeStatusChild(data,childId).then(() => {
         this.$message({message:'Success',type:'success'});
-        this.cardDetail(cardId);
-        this.checked3 == true
+        // this.cardDetail(cardId);
+        
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
+    },
+    checkPercentComplete(arr) {
+      let totalChildrenWork = arr.length;
+      let a = 0;
+      if(arr.length !== 0) {
+        arr.forEach((item) => {
+          if(item.status == 1) {
+            a = a + 1;
+          }  
+        })
+        return Math.ceil(a / totalChildrenWork * 100)
+      } else {
+        return 0
+      }
+      
     },
     saveCheckListChild(id,cardId){
       let data = {
@@ -558,7 +691,8 @@ export default {
         this.$message({message:'Success',type:'success'});
         this.cardDetail(id);
         this.getData();
-        this.checked2 == true
+        this.checked2 = true
+        
       }).catch(() => {
           this.$message({message: 'Error', type: 'error'});
       })
@@ -573,9 +707,9 @@ export default {
       this.$refs.checkbox[index].style.display = 'none';
       this.$refs.nameOfChild[index].style.display = 'none';
     },
-    hide() {
-      this.$refs.hidden1.style.display = 'none';
-      this.$refs.hidden2.style.display = 'block';
+    hide(index) {
+      this.$refs.hidden1[index].style.display = 'none';
+      this.$refs.hidden2[index].style.display = 'block';
     },
     showtime(directoryId, indexCard,index){
       this.$refs.hidden3[index].style.display = 'none';
@@ -1039,6 +1173,18 @@ export default {
       api.updateCard(data,id).then(() => {
         this.$message({message:'Success',type:'success'});
         this.$refs.editFormDes.style.display = 'none';
+        this.$refs.editFormDes2.style.display = 'none';
+        this.cardDetail(id);
+      }).catch(() => {
+          this.$message({message: 'Error', type: 'error'});
+      })
+    },
+    addDescription2(id){
+      let data = {
+        description: this.description2
+      }
+      api.updateCard(data,id).then(() => {
+        this.$message({message:'Success',type:'success'});
         this.$refs.editFormDes2.style.display = 'none';
         this.cardDetail(id);
       }).catch(() => {

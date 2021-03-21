@@ -73,6 +73,16 @@ import LoginLayout from './layouts/LoginLayout.vue'
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;
   color: #2c3e50;
+  ::-webkit-scrollbar {
+            height: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(194, 191, 191, 0.65);;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-track-piece {
+            background: rgba(0,0,0,.15);
+        }
 }
 body{
   margin: 0px;
@@ -91,6 +101,9 @@ body{
 .el-dialog__header{
   // padding: 0 !important;
   background-color: #f4f5f7;
+}
+.el-dialog__footer {
+    background-color: #f4f5f7;
 }
 #nav {
   padding: 30px;
