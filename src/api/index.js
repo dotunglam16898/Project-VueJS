@@ -172,6 +172,13 @@ export default {
       data: data
     })
   },
+  editCheckList(data,id) {
+    return apiAxios({
+      method: 'put',
+      url: '/check-lists/' + id ,
+      data: data
+    })
+  },
   attachLabel(data,id) {
     return apiAxios({
       method: 'post',

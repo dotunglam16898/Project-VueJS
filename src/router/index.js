@@ -37,7 +37,7 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import( '../views/Login.vue'),
-    
+    // email: lamdt@zent.vn  pass: lam16898
   },
   {
     path: '/register',
